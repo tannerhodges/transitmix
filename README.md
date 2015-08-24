@@ -49,15 +49,21 @@ Transitmix is a Ruby application with a PostgreSQL database.
 2. [Install Ruby](https://github.com/codeforamerica/howto/blob/master/Ruby.md).
 
 Finally, clone Transmitmix from Github and prepare the database:
-   
+
 ```console
 git clone https://github.com/codeforamerica/transitmix.git
 cd transitmix
 cp .env.sample .env
 bundle install
+    lunchy start postgres
+    lunchy stop postgres
 rake db:create db:migrate
+    rake aborted!
+    LoadError: cannot load such file -- jasmine
+    Comment out `require 'jasmine'` in `Rakefile`
 rake db:create db:migrate DATABASE_URL=postgres://localhost/transitmix_test
 bundle exec rackup
+    Boom goes the dynamite
 ```
 
 ## Deploy to Heroku

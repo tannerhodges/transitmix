@@ -4,17 +4,34 @@ app.utils = app.utils || {};
 // If an point.via is provided, the route will go through that point
 // E.g. getRoute({from: [20, 30], to: [23, 40]}, callback)
 app.utils.getRoute = function(latlngs, callback, context) {
+
   // Flips from [lat, lng] to [lng, lat]
   var flip = function(latlng) {
+    if (!latlng) {
+      return [0, 0];
+    }
     return [latlng[1], latlng[0]];
   };
 
   var waypoints = [latlngs.from, latlngs.to];
-  if (latlngs.via) waypoints.splice(1, 0, latlngs.via);
+
+  if (latlngs.via) {
+    waypoints.splice(1, 0, latlngs.via);
+  }
+
   waypoints = waypoints.map(flip).join(';');
 
-  var url = 'http://api.tiles.mapbox.com/v3/codeforamerica.h6mlbj75/' +
-  'directions/driving/' + waypoints + '.json?geometry=polyline';
+  // L.mapbox.accessToken = 'pk.eyJ1IjoidGFubmVyaG9kZ2VzIiwiYSI6Ijk4NzA0Yjk3NDYwNWUwNWE2NGQzNjI1NjczZjQ3ZTEwIn0.xJPxZDCXsZAJ0Nlc8sxteA';
+
+  // TODO: Looks like we had some types:
+  // var url = 'http://api.tiles.mapbox.com/v3/tannerhodges.c032a577/' +
+  // 'directions/driving/' + waypoints + '.json?geometry=polyline&access_token=pk.eyJ1IjoidGFubmVyaG9kZ2VzIiwiYSI6Ijk4NzA0Yjk3NDYwNWUwNWE2NGQzNjI1NjczZjQ3ZTEwIn0.xJPxZDCXsZAJ0Nlc8sxteA';
+
+  // Directions API documentation
+  // https://www.mapbox.com/developers/api/directions/
+  var url = 'https://api.tiles.mapbox.com/v4/' +
+  // 'directions/mapbox.driving/' + waypoints + '.json?geometry=polyline&access_token=pk.eyJ1IjoidGFubmVyaG9kZ2VzIiwiYSI6Ijk4NzA0Yjk3NDYwNWUwNWE2NGQzNjI1NjczZjQ3ZTEwIn0.xJPxZDCXsZAJ0Nlc8sxteA';
+  'directions/mapbox.driving/' + waypoints + '.json?geometry=polyline';
 
   $.getJSON(url, function(response) {
     if (response.error || response.routes.length === 0) {

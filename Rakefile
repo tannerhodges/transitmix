@@ -1,5 +1,5 @@
 require 'bundler'
-require 'jasmine'
+# require 'jasmine'
 Bundler.require
 
 # require rake tasks
