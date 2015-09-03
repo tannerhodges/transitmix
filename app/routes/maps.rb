@@ -41,6 +41,9 @@ module Transitmix
       end
 
       post '/api/maps' do
+        # Debug
+        # Map.create(:name => 'Test')
+        # puts(map_params)
         Map.create(map_params)
       end
 
